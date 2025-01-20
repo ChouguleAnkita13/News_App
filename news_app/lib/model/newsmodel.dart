@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 // MODEL CLASS REPRESENTING THE STRUCTURE OF NEWS DATA
 class NewsModel {
   /// STATUS OF THE NEWS RESPONSE
@@ -56,7 +58,8 @@ class Article {
     description = json['description'];
     url = json['url'];
     urlToImage = json['urlToImage'];
-    publishedAt = json['publishedAt'];
+    publishedAt = DateFormat('EEEE, dd MMM yyyy')
+        .format(DateTime.parse(json['publishedAt']));
     content = json['content'];
   }
 }
