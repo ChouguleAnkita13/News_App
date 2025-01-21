@@ -7,15 +7,16 @@ The News App is a Flutter-based mobile application that delivers the latest news
 <div style="display: flex;">
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/4552e662-e92b-49a8-bd01-26f0711bad6d" alt="splash" style="margin-right: 10px;" width="300" height="600">
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/ab93c89d-a83f-4bf0-883f-64b0455d90f3" alt="login" style="margin-right: 10px; " width="300" height="600">
- <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/9f671095-bc53-40e2-b10d-ad0395bec7bf" alt="Home 1" style="margin-right: 10px; " width="300" height="600">
+ <img src="https://github.com/user-attachments/assets/85a66fac-793b-4244-b399-59d5f39987b4" alt="Login2" style="margin-right: 10px; " width="300" height="600">
+ <br> <br><br><br>
+    <img src="https://github.com/user-attachments/assets/f9e00df2-959b-4f75-8113-5a173e1ed35c" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
+ <img src="https://github.com/user-attachments/assets/60cd6f27-4b06-4279-a108-3df79ea638e5" alt="Home 2" style="margin-right: 10px;" width="300" height="600">
+ <img src="https://github.com/user-attachments/assets/65c33d2f-2be8-4446-b1ef-2e057458defc" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
+
  <br> <br><br><br>
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/80bec03f-0af4-4d7b-9106-5e70ac783b69" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
- <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/1760e300-9d3e-4f62-ae6d-305490f32af3" alt="Home 2" style="margin-right: 10px;" width="300" height="600">
- <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/8890f9d4-9878-4cde-bc92-f8d4b564a049" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
-   
+ <img src="https://github.com/user-attachments/assets/3a579888-67fc-4f03-8805-e58266738b25" alt="Home 2" style="margin-right: 10px;" width="300" height="600">   
 </div>
-
-
 
 ## Project Structure
 
