@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
-import 'package:news_app/view/Widgets/button_container.dart'; // Import the theme file
+import 'package:news_app/view/Widgets/button_container.dart'; // IMPORT THE THEME FILE
 
+///REGISTERATION SCREEN
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -12,15 +13,16 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  //TextEditingControllers
+  /// TEXT EDITING CONTROLLERS TO HANDLE USER INPUT
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  //GlobalKey
+  /// GLOBAL KEY TO VALIDATE THE FORM
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  /// BOOLEAN TO HANDLE THE "REMEMBER ME" CHECKBOX STATE
   bool _isChecked = false;
 
   @override
@@ -32,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// BACK BUTTON TO NAVIGATE TO THE PREVIOUS SCREEN
               IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -42,20 +45,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   color: AppTheme.textColor,
                 ),
               ),
+
+              /// FORM TO HANDLE SIGN-UP DETAILS
               Form(
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    /// DISPLAY THE LOGO
                     Image.asset(
                       "assets/images/logo.png",
                       height: 80,
                     ),
+
+                    /// DISPLAY THE APP NAME
                     Text(
                       "inshorts",
                       style: AppTheme.lightTheme.textTheme.displayLarge,
                     ),
                     const SizedBox(height: 30),
+
+                    /// HEADING: CREATE AN ACCOUNT
                     Container(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -63,6 +73,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: AppTheme.lightTheme.textTheme.titleLarge,
                       ),
                     ),
+
+                    /// NAME INPUT FIELD
                     CustomTextfield(
                       controller: _nameController,
                       hintText: "  Enter your name",
@@ -75,6 +87,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       },
                     ),
+
+                    /// PHONE NUMBER INPUT FIELD
                     CustomTextfield(
                       controller: _phoneController,
                       validate: (value) {
@@ -90,6 +104,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       icon: Icons.phone_outlined,
                       keyboardType: TextInputType.number,
                     ),
+
+                    /// EMAIL INPUT FIELD
                     CustomTextfield(
                         controller: _emailController,
                         validate: (value) {
@@ -103,7 +119,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: "  Enter your email",
                         icon: Icons.email_outlined,
                         keyboardType: TextInputType.emailAddress),
+
+                    /// PASSWORD INPUT FIELD
                     PasswordTextfield(controller: _passwordController),
+
+                    /// "REMEMBER ME" CHECKBOX
                     Row(
                       children: [
                         Transform.scale(
@@ -143,6 +163,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                     const SizedBox(height: 30),
+
+                    /// SIGN-UP BUTTON
                     GestureDetector(
                         onTap: () {
                           bool isValidated = _formKey.currentState!.validate();
@@ -152,6 +174,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         child: const ButtonContainer(text: "Sign Up")),
                     const SizedBox(height: 10),
+
+                    /// NAVIGATION TO LOGIN SCREEN
                     Text.rich(TextSpan(children: [
                       TextSpan(
                         text: "Already have an account?",

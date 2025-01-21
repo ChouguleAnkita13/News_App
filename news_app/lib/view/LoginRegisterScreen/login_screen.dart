@@ -3,6 +3,7 @@ import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
 
+///LOGIN SCREEN
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -11,42 +12,52 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //TextEditingControllers
+  /// TEXT EDITING CONTROLLERS FOR EMAIL AND PASSWORD FIELDS
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  //GlobalKey
+  /// GLOBAL KEY TO IDENTIFY THE FORM AND ENABLE VALIDATION
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// WRAPS THE ENTIRE SCREEN WITH A SCROLLABLE VIEW TO AVOID OVERFLOW ON SMALLER SCREENS
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// FORM WIDGET TO HANDLE VALIDATION AND INPUT FIELDS
               Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      /// LOGO IMAGE AT THE TOP OF THE SCREEN
                       Image.asset(
                         "assets/images/logo.png",
                         height: 80,
                       ),
+
+                      /// APP NAME TEXT WITH CUSTOM STYLING
                       Text(
                         "inshorts",
                         style: AppTheme.lightTheme.textTheme.displayLarge,
                       ),
+
                       const SizedBox(
                         height: 5,
                       ),
+
+                      /// WELCOME MESSAGE BELOW THE APP NAME
                       Text(
                         "Welcome! Lets dive into your account",
                         style: AppTheme.lightTheme.textTheme.titleMedium,
                       ),
+
+                      /// CUSTOM TEXT FIELD FOR EMAIL INPUT
                       CustomTextfield(
                           controller: _emailController,
                           validate: (value) {
@@ -60,7 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: "  Enter your email",
                           icon: Icons.email_outlined,
                           keyboardType: TextInputType.emailAddress),
+
+                      /// CUSTOM PASSWORD FIELD WITH OBSCURE TEXT FUNCTIONALITY
                       PasswordTextfield(controller: _passwordController),
+
+                      /// FORGOT PASSWORD LINK
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -70,11 +85,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
+
                       const SizedBox(
                         height: 50,
                       ),
+
+                      /// SIGN IN BUTTON WITH VALIDATION
                       GestureDetector(
                         onTap: () {
+                          /// VALIDATE THE FORM
                           bool loginValidated =
                               _formKey.currentState!.validate();
                           if (loginValidated) {
@@ -86,12 +105,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
 
-                            //   Future.delayed(const Duration(milliseconds: 400),
-                            //       () {
+                            /// NAVIGATE TO THE HOME SCREEN AFTER A SUCCESSFUL LOGIN
                             Navigator.of(context).popAndPushNamed("/home");
-                            //   });
                           }
                         },
+
+                        /// CONTAINER REPRESENTING THE SIGN IN BUTTON
                         child: Container(
                           width: MediaQuery.sizeOf(context).width,
                           alignment: Alignment.center,
@@ -108,7 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 10),
+
+                      /// LINK TO NAVIGATE TO THE SIGN-UP SCREEN
                       Text.rich(TextSpan(children: [
                         TextSpan(
                           text: "Don’t have an account?",
