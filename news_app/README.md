@@ -1,9 +1,10 @@
 # Flutter News Application
 
-News App developed with Flutter.
+## Overview
+The News App is a Flutter-based mobile application that delivers the latest news articles from various categories. It is built using the Provider state management solution and integrates with a news API for real-time updates. The app follows the Model-View-Controller (MVC) design pattern, ensuring clean architecture and maintainability. The folder structure is organized for scalability and easy management of code.
 
- 
-<div style="display: flex;;">
+
+<div style="display: flex;">
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/4552e662-e92b-49a8-bd01-26f0711bad6d" alt="splash" style="margin-right: 10px;" width="300" height="600">
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/ab93c89d-a83f-4bf0-883f-64b0455d90f3" alt="login" style="margin-right: 10px; " width="300" height="600">
  <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/9f671095-bc53-40e2-b10d-ad0395bec7bf" alt="Home 1" style="margin-right: 10px; " width="300" height="600">
@@ -22,42 +23,68 @@ The project follows the MVC (Model-View-Controller) architecture for better orga
 
 ```bash
 lib/
-├── controller/
-│   ├── news_provider.dart         # Business logic and state management
-│   └── getnews.dart               # API call to fetch news data
-├── model/
-│   └── news_model.dart            # Data models
-├── view/
-│   ├── screens/
-│   │   ├── bookmarked_news_screen.dart # UI for bookmarked news
-│   │   ├── home.dart                   # UI for home screen
-│   │   ├── login_screen.dart           # UI for login screen
-│   │   ├── signup.dart                 # UI for signup screen
-│   │   ├── details_screen.dart         # UI for news details
-│   │   └── splash_screen.dart          # UI for splash screen
-│   └── widgets/
-│       ├── menubar.dart                # Custom menu bar widget
-│       └── news.dart                   # Custom widget to display news articles
-├── route/
-│   └── app_route.dart                  # Application routes
-└── main.dart                           # Application entry point
+├── controller/        # Handles app logic and state (e.g., news_provider.dart)
+├── model/             # Data classes and business logic (e.g., newsmodel.dart)
+├── view/              # UI components and screens
+│   ├── HomeScreen/    # Home screen and related widgets
+│   ├── LoginRegisterScreen/ # Login and Signup screens and related widgets
+│   ├── Widgets/       # Reusable UI components (e.g., custom buttons, text fields)
+│   ├── details_screen.dart # Detailed news screen
+│   ├── bookmarked_news_screen.dart # Bookmarked articles screen
+│   └── splash_screen.dart # Splash screen
+├── theme/             # App themes and styling (e.g., app_theme.dart)
+├── main.dart          # Entry point of the app
+```
+## Key Features
+
+#### News Browsing
+View the latest news articles from various sources.
+Detailed news screens with article descriptions, publication dates, and author information.
+
+#### Bookmarking
+Save favorite news articles to revisit later.
+Bookmark management to remove saved articles.
+
+#### UI/UX
+Clean and modern user interface with responsive design for mobile devices.
+Engaging visuals, including blur effects and gradient overlays.
+Dynamic news listing with title, author, and publication details.
+
+#### State Management
+Efficient and reactive updates using the Provider package.
+Seamless interaction and performance across app features.
+
+#### API Integration
+Fetch real-time news data using REST API.
+Smooth integration with external news APIs for up-to-date articles.
+
+#### Navigation
+Easy navigation between screens, including Login, Signup, Home, Bookmarked, and Details screens.
+Intuitive back and forward transitions for better user flow.
+
+#### Theming
+Custom themes for consistent styling across the app.
+Differentiated news appearance based on focus or selection.
+
+## Flutter Version
+```
+flutter --version
+  Flutter 3.22.3
+  Dart 3.4.4
 ```
 
-## Libraries used
-
-#### google_fonts:
- This dependency allows easy integration of custom fonts from the Google Fonts library into the Flutter application, enhancing typography and visual design.
-
-#### http:
- The HTTP package facilitates making HTTP requests within the Flutter application, enabling communication with remote servers to fetch data, such as news articles, from APIs.
-
-#### url_launcher:
- This package provides functionality to launch URLs, enabling the Flutter application to open external web links or perform actions associated with URLs, such as sending emails or making phone calls.
-
-#### provider: 
-Provider is a state management library for Flutter applications, used to manage application state and data flow efficiently. It enables the sharing of data between different parts of the application and helps maintain a clean and scalable codebase.
-
+## Dependencies
+```bash
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+  http: ^1.2.1
+  url_launcher: ^6.3.0
+  provider: ^6.1.2
+  intl: ^0.20.1
+```
 ## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for more details.
 
