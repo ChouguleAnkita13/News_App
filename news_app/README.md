@@ -3,7 +3,7 @@
 ## Overview
 The News App is a Flutter-based mobile application that delivers the latest news articles from various categories. It is built using the Provider state management solution and integrates with a news API for real-time updates. The app follows the Model-View-Controller (MVC) design pattern, ensuring clean architecture and maintainability. The folder structure is organized for scalability and easy management of code.
 
-
+## Screenshots
 <div style="display: flex;">
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/4552e662-e92b-49a8-bd01-26f0711bad6d" alt="splash" style="margin-right: 10px;" width="300" height="600">
     <img src="https://github.com/user-attachments/assets/ba7a9491-7c29-4e5b-9372-a9961747bc2a" alt="login" style="margin-right: 10px; " width="300" height="600">
