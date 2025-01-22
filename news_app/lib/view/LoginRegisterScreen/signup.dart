@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/controller/news_provider.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
-import 'package:news_app/view/Widgets/button_container.dart'; // IMPORT THE THEME FILE
+import 'package:news_app/view/Widgets/button_container.dart';
+import 'package:provider/provider.dart'; // IMPORT THE THEME FILE
 
 ///REGISTERATION SCREEN
 class SignUpScreen extends StatefulWidget {
@@ -21,9 +23,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   /// GLOBAL KEY TO VALIDATE THE FORM
   final GlobalKey<FormState> _formKey = GlobalKey();
-
-  /// BOOLEAN TO HANDLE THE "REMEMBER ME" CHECKBOX STATE
-  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -128,20 +127,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         Transform.scale(
                           scale: 1.1,
-                          child: Checkbox(
-                            value: _isChecked,
-                            activeColor: AppTheme.primaryColor,
-                            side: const BorderSide(
-                                color: AppTheme.textColorLight),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                _isChecked = value!;
-                              });
-                            },
-                          ),
+                          child: Consumer<NewsProvider>(
+
+                              /// ACCESS THE NEWS PROVIDER INSTANCE
+                              builder: (context, newsProvider, child) {
+                            return Checkbox(
+                              value: newsProvider.isChecked,
+                              activeColor: AppTheme.primaryColor,
+                              side: const BorderSide(
+                                  color: AppTheme.textColorLight),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              onChanged: (value) {
+                                newsProvider.toggleCheckbox();
+                              },
+                            );
+                          }),
                         ),
                         Text.rich(TextSpan(
                           children: [

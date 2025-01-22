@@ -20,6 +20,10 @@ class NewsProvider with ChangeNotifier {
   /// PRIVATE VARIABLE TO SHOW PASSWORD VISIBILTY
   bool _isPasswordVisible = true;
 
+  /// PRIVATE VARIABLE TO SHOW CHECKBOX STATUS
+
+  bool _isChecked = false;
+
   /// LIST OF CATEGORIES AVAILABLE FOR SELECTION
   List<String> categories = [
     'Business',
@@ -51,12 +55,23 @@ class NewsProvider with ChangeNotifier {
   /// GETTER TO ACCESS THE PASSWORD VISIBILTY STATUS
   bool get isPasswordVisible => _isPasswordVisible;
 
+  /// GETTER TO ACCESS THE CHECKBOX STATUS
+  bool get isChecked => _isChecked;
+
   /// METHOD TO TOGGLE THE PASSWORD VISIBILTY STATUS
   void togglePassword() {
     _isPasswordVisible = !_isPasswordVisible;
     notifyListeners();
 
     ///NOTIFIES LISTENERS WHEN THE PASSWORD VISIBILTY STATUS CHANGES
+  }
+
+  /// METHOD TO TOGGLE THE CHECKBOX STATUS
+  void toggleCheckbox() {
+    _isChecked = !_isChecked;
+    notifyListeners();
+
+    ///NOTIFIES LISTENERS WHEN THE CHECKBOX STATUS CHANGES
   }
 
   /// METHOD TO SET THE SELECTED CATEGORY AND FETCH NEWS DATA ACCORDINGLY
