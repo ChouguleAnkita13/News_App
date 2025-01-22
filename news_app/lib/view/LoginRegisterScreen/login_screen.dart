@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/controller/news_provider.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
+import 'package:provider/provider.dart';
 
 ///LOGIN SCREEN
 class LoginScreen extends StatefulWidget {
@@ -12,15 +14,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  /// TEXT EDITING CONTROLLERS FOR EMAIL AND PASSWORD FIELDS
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  /// GLOBAL KEY TO IDENTIFY THE FORM AND ENABLE VALIDATION
-  final GlobalKey<FormState> _formKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
+    final newsProvider = Provider.of<NewsProvider>(context);
+
+    /// GLOBAL KEY TO VALIDATE THE FORM
+    final GlobalKey<FormState> formKey = GlobalKey();
+
     return Scaffold(
       /// WRAPS THE ENTIRE SCREEN WITH A SCROLLABLE VIEW TO AVOID OVERFLOW ON SMALLER SCREENS
       body: SingleChildScrollView(
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               /// FORM WIDGET TO HANDLE VALIDATION AND INPUT FIELDS
               Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       /// CUSTOM TEXT FIELD FOR EMAIL INPUT
                       CustomTextfield(
-                          controller: _emailController,
+                          controller: newsProvider.emailController,
                           validate: (value) {
                             if (value!.trim().isEmpty ||
                                 !RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
@@ -73,7 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress),
 
                       /// CUSTOM PASSWORD FIELD WITH OBSCURE TEXT FUNCTIONALITY
-                      PasswordTextfield(controller: _passwordController),
+                      PasswordTextfield(
+                          controller: newsProvider.passwordController),
 
                       /// FORGOT PASSWORD LINK
                       Row(
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           /// VALIDATE THE FORM
                           bool loginValidated =
-                              _formKey.currentState!.validate();
+                              formKey.currentState!.validate();
                           if (loginValidated) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

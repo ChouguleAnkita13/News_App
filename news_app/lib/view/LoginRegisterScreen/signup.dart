@@ -15,17 +15,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  /// TEXT EDITING CONTROLLERS TO HANDLE USER INPUT
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  /// GLOBAL KEY TO VALIDATE THE FORM
-  final GlobalKey<FormState> _formKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
+    final newsProvider = Provider.of<NewsProvider>(context);
+
+    /// GLOBAL KEY TO VALIDATE THE FORM
+    final GlobalKey<FormState> formKey = GlobalKey();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -47,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               /// FORM TO HANDLE SIGN-UP DETAILS
               Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -75,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     /// NAME INPUT FIELD
                     CustomTextfield(
-                      controller: _nameController,
+                      controller: newsProvider.nameController,
                       hintText: "  Enter your name",
                       icon: Icons.person_outline,
                       keyboardType: TextInputType.name,
@@ -89,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     /// PHONE NUMBER INPUT FIELD
                     CustomTextfield(
-                      controller: _phoneController,
+                      controller: newsProvider.phoneController,
                       validate: (value) {
                         if (value!.trim().isEmpty) {
                           return "Please Enter Mobile Number";
@@ -106,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     /// EMAIL INPUT FIELD
                     CustomTextfield(
-                        controller: _emailController,
+                        controller: newsProvider.emailController,
                         validate: (value) {
                           if (value!.trim().isEmpty ||
                               !RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
@@ -120,7 +116,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.emailAddress),
 
                     /// PASSWORD INPUT FIELD
-                    PasswordTextfield(controller: _passwordController),
+                    PasswordTextfield(
+                        controller: newsProvider.passwordController),
 
                     /// "REMEMBER ME" CHECKBOX
                     Row(
@@ -169,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     /// SIGN-UP BUTTON
                     GestureDetector(
                         onTap: () {
-                          bool isValidated = _formKey.currentState!.validate();
+                          bool isValidated = formKey.currentState!.validate();
                           if (isValidated) {
                             Navigator.of(context).pop();
                           }

@@ -5,6 +5,12 @@ import 'package:news_app/model/newsmodel.dart';
 
 /// PROVIDER CLASS TO MANAGE NEWS DATA AND USER INTERACTIONS
 class NewsProvider with ChangeNotifier {
+  /// TEXT EDITING CONTROLLERS TO HANDLE USER INPUT
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   /// PRIVATE VARIABLE TO STORE THE SELECTED CATEGORY
   String _selectedCategory = 'Business';
 
