@@ -11,75 +11,80 @@ class PasswordTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// ACCESS THE NEWS PROVIDER INSTANCE
-    final newsProvider = Provider.of<NewsProvider>(context);
-    return Container(
-      /// APPLYING BACKGROUND COLOR AND MARGIN TO THE TEXT FIELD CONTAINER
-      color: const Color.fromRGBO(240, 241, 250, 0.4),
-      margin: const EdgeInsets.only(top: 20, bottom: 5),
-      child: TextFormField(
-        /// CONTROLLER TO MANAGE TEXT INPUT
-        controller: controller,
+    return Consumer<NewsProvider>(
 
-        /// SET THE CURSOR COLOR
-        cursorColor: AppTheme.textColorLight,
+        /// ACCESS THE NEWS PROVIDER INSTANCE
+        builder: (context, newsProvider, child) {
+      return Container(
+        /// APPLYING BACKGROUND COLOR AND MARGIN TO THE TEXT FIELD CONTAINER
+        color: const Color.fromRGBO(240, 241, 250, 0.4),
+        margin: const EdgeInsets.only(top: 20, bottom: 5),
+        child: TextFormField(
+          /// CONTROLLER TO MANAGE TEXT INPUT
+          controller: controller,
 
-        /// ENABLE OBSCURE TEXT FOR PASSWORD INPUT
-        obscureText: newsProvider.isPasswordVisible,
-        obscuringCharacter: "*",
+          /// SET THE CURSOR COLOR
+          cursorColor: AppTheme.textColorLight,
 
-        /// DECORATION FOR THE INPUT FIELD
-        decoration: InputDecoration(
-          /// PREFIX ICON FOR PASSWORD FIELD
-          prefixIcon: Icon(
-            Icons.lock_outline_rounded,
-            size: 26,
-            color: AppTheme.textColor.withOpacity(0.4),
-          ),
+          /// ENABLE OBSCURE TEXT FOR PASSWORD INPUT
+          obscureText: newsProvider.isPasswordVisible,
+          obscuringCharacter: "*",
 
-          /// SUFFIX ICON TO TOGGLE PASSWORD VISIBILITY
-          suffixIcon: GestureDetector(
-            onTap: () {
-              /// TOGGLE PASSWORD VISIBILITY ON TAP
-              newsProvider.togglePassword();
-            },
-            child: Icon(
-              newsProvider.isPasswordVisible
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
+          /// DECORATION FOR THE INPUT FIELD
+          decoration: InputDecoration(
+            /// PREFIX ICON FOR PASSWORD FIELD
+            prefixIcon: Icon(
+              Icons.lock_outline_rounded,
               size: 26,
               color: AppTheme.textColor.withOpacity(0.4),
             ),
+
+            /// SUFFIX ICON TO TOGGLE PASSWORD VISIBILITY
+            suffixIcon: GestureDetector(
+              onTap: () {
+                /// TOGGLE PASSWORD VISIBILITY ON TAP
+                newsProvider.togglePassword();
+              },
+              child: Icon(
+                newsProvider.isPasswordVisible
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                size: 26,
+                color: AppTheme.textColor.withOpacity(0.4),
+              ),
+            ),
+
+            /// HINT TEXT FOR THE INPUT FIELD
+            hintText: "  Enter your password",
+            hintStyle: AppTheme.lightTheme.inputDecorationTheme.hintStyle,
+
+            /// STYLING FOR ENABLED, FOCUSED, AND ERROR STATES OF THE INPUT FIELD
+            enabledBorder:
+                AppTheme.lightTheme.inputDecorationTheme.enabledBorder,
+            focusedBorder:
+                AppTheme.lightTheme.inputDecorationTheme.focusedBorder,
+            errorBorder: AppTheme.lightTheme.inputDecorationTheme.errorBorder,
+            focusedErrorBorder:
+                AppTheme.lightTheme.inputDecorationTheme.focusedErrorBorder,
           ),
 
-          /// HINT TEXT FOR THE INPUT FIELD
-          hintText: "  Enter your password",
-          hintStyle: AppTheme.lightTheme.inputDecorationTheme.hintStyle,
+          /// VALIDATOR TO VALIDATE PASSWORD INPUT
+          validator: (value) {
+            /// CHECK IF PASSWORD FIELD IS EMPTY
+            if (value!.trim().isEmpty) {
+              return "Please Enter Password";
+            }
 
-          /// STYLING FOR ENABLED, FOCUSED, AND ERROR STATES OF THE INPUT FIELD
-          enabledBorder: AppTheme.lightTheme.inputDecorationTheme.enabledBorder,
-          focusedBorder: AppTheme.lightTheme.inputDecorationTheme.focusedBorder,
-          errorBorder: AppTheme.lightTheme.inputDecorationTheme.errorBorder,
-          focusedErrorBorder:
-              AppTheme.lightTheme.inputDecorationTheme.focusedErrorBorder,
+            /// REGEX VALIDATION FOR STRONG PASSWORD REQUIREMENTS
+            if (!RegExp(
+                    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+={}|;<>?,.\/~`\-\\[\]]).{8,}$')
+                .hasMatch(value)) {
+              return 'Please enter password with one uppercase letter, one lowercase letter, one digit, and one special character';
+            }
+            return null;
+          },
         ),
-
-        /// VALIDATOR TO VALIDATE PASSWORD INPUT
-        validator: (value) {
-          /// CHECK IF PASSWORD FIELD IS EMPTY
-          if (value!.trim().isEmpty) {
-            return "Please Enter Password";
-          }
-
-          /// REGEX VALIDATION FOR STRONG PASSWORD REQUIREMENTS
-          if (!RegExp(
-                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+={}|;<>?,.\/~`\-\\[\]]).{8,}$')
-              .hasMatch(value)) {
-            return 'Please enter password with one uppercase letter, one lowercase letter, one digit, and one special character';
-          }
-          return null;
-        },
-      ),
-    );
+      );
+    });
   }
 }
