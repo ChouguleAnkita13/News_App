@@ -6,14 +6,9 @@ import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dar
 import 'package:provider/provider.dart';
 
 ///LOGIN SCREEN
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final newsProvider = Provider.of<NewsProvider>(context);
