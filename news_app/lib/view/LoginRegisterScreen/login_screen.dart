@@ -73,8 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress),
 
                       /// CUSTOM PASSWORD FIELD WITH OBSCURE TEXT FUNCTIONALITY
-                      PasswordTextfield(
-                          controller: newsProvider.passwordController),
+                      const PasswordTextfield(),
 
                       /// FORGOT PASSWORD LINK
                       Row(

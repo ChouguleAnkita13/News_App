@@ -116,8 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.emailAddress),
 
                     /// PASSWORD INPUT FIELD
-                    PasswordTextfield(
-                        controller: newsProvider.passwordController),
+                    const PasswordTextfield(),
 
                     /// "REMEMBER ME" CHECKBOX
                     Row(

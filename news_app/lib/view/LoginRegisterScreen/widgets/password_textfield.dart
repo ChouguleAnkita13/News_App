@@ -5,9 +5,7 @@ import 'package:provider/provider.dart';
 
 /// CUSTOM WIDGET FOR PASSWORD INPUT FIELD
 class PasswordTextfield extends StatelessWidget {
-  /// CONTROLLER TO MANAGE THE INPUT TEXT
-  const PasswordTextfield({super.key, required this.controller});
-  final TextEditingController controller;
+  const PasswordTextfield({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class PasswordTextfield extends StatelessWidget {
         margin: const EdgeInsets.only(top: 20, bottom: 5),
         child: TextFormField(
           /// CONTROLLER TO MANAGE TEXT INPUT
-          controller: controller,
+          controller: newsProvider.passwordController,
 
           /// SET THE CURSOR COLOR
           cursorColor: AppTheme.textColorLight,
