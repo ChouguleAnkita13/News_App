@@ -4,11 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:news_app/model/newsmodel.dart';
 
 /// FUNCTION TO FETCH NEWS DATA FROM THE API BASED ON THE SPECIFIED CATEGORY
-Future<List<Article>> getNews(String category) async {
+Future<List<Article>> getNews(String category, String selectCountry) async {
   try {
     /// BUILD THE API URL WITH CATEGORY AND API KEY
     Uri url = Uri.parse(
-        "https://newsapi.org/v2/top-headlines?country=us&category=$category&apiKey=2dad900c83e649f1974a0d8fbc2c41c4");
+        "https://newsapi.org/v2/top-headlines?country=$selectCountry&category=$category&apiKey=2dad900c83e649f1974a0d8fbc2c41c4");
 
     /// MAKE AN HTTP GET REQUEST TO THE API
     http.Response response = await http.get(url);

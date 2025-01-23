@@ -14,6 +14,9 @@ class NewsProvider with ChangeNotifier {
   /// PRIVATE VARIABLE TO STORE THE SELECTED CATEGORY
   String _selectedCategory = 'Business';
 
+  /// PRIVATE VARIABLE TO STORE THE SELECTED COUNTRY
+  String _selectedCountry = "us";
+
   /// PRIVATE VARIABLE TO STORE FETCHED NEWS DATA
   List<Article> _newsData = [];
 
@@ -41,6 +44,9 @@ class NewsProvider with ChangeNotifier {
     'Automobile',
   ];
 
+  /// LIST OF COUNTRIES AVAILABLE FOR SELECTION
+  List<String> countryList = ["us", "in"];
+
   /// CONSTRUCTOR TO FETCH NEWS DATA FOR THE "NATIONAL" CATEGORY WHEN THE PROVIDER IS INITIALIZED
   NewsProvider() {
     getAllNews();
@@ -48,6 +54,9 @@ class NewsProvider with ChangeNotifier {
 
   /// GETTER TO ACCESS THE SELECTED CATEGORY
   String get selectedCategory => _selectedCategory;
+
+  /// GETTER TO ACCESS THE SELECTED COUNTRY
+  String get selectCountry => _selectedCountry;
 
   /// GETTER TO ACCESS THE FETCHED NEWS DATA
   List<Article> get newsData => _newsData;
@@ -86,6 +95,13 @@ class NewsProvider with ChangeNotifier {
     getAllNews();
   }
 
+  /// METHOD TO SET THE SELECTED COUNTRY AND FETCH NEWS DATA ACCORDINGLY
+
+  void getselectedCountry(String country) {
+    _selectedCountry = country;
+    getAllNews();
+  }
+
   /// ASYNCHRONOUS METHOD TO FETCH NEWS DATA BASED ON THE SELECTED CATEGORY
   Future<void> getAllNews() async {
     _isLoading = true;
@@ -93,7 +109,8 @@ class NewsProvider with ChangeNotifier {
 
     try {
       /// FETCH NEWS DATA USING THE SELECTED CATEGORY
-      _newsData = await getNews(_selectedCategory.toLowerCase());
+      _newsData =
+          await getNews(_selectedCategory.toLowerCase(), _selectedCountry);
     } catch (e) {
       /// LOG AN ERROR MESSAGE IF FETCHING NEWS FAILS
       log('Error fetching news: $e');

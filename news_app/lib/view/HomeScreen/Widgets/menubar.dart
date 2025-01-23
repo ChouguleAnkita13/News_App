@@ -14,57 +14,79 @@ class CategoryMenuBar extends StatelessWidget {
       builder: (context, newsProvider, child) {
         return Column(
           children: [
-            /// HORIZONTAL SCROLLABLE LIST OF CATEGORIES
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: newsProvider.categories.map((category) {
-                  return GestureDetector(
-                    onTap: () {
-                      /// SET THE SELECTED CATEGORY IN THE NEWSPROVIDER WHEN A CATEGORY IS TAPPED
-                      newsProvider.setSelectedCategory(category);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: newsProvider.selectedCategory == category
-                              ? const Color.fromRGBO(255, 179, 182, 1)
-                              : const Color.fromRGBO(240, 241, 250, 1),
-                        ),
-                        gradient: newsProvider.selectedCategory == category
-                            ? const LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(255, 128, 134, 1),
-                                  Color.fromRGBO(255, 58, 68, 1),
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              )
-                            : const LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ],
+            Row(
+              children: [
+                DropdownButton(
+                    value: newsProvider.selectCountry,
+                    items: newsProvider.countryList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      newsProvider.getselectedCountry(value!);
+                    }),
+
+                /// HORIZONTAL SCROLLABLE LIST OF CATEGORIES
+
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: newsProvider.categories.map((category) {
+                        return GestureDetector(
+                          onTap: () {
+                            /// SET THE SELECTED CATEGORY IN THE NEWSPROVIDER WHEN A CATEGORY IS TAPPED
+                            newsProvider.setSelectedCategory(category);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: newsProvider.selectedCategory == category
+                                    ? const Color.fromRGBO(255, 179, 182, 1)
+                                    : const Color.fromRGBO(240, 241, 250, 1),
                               ),
-                      ),
-                      child: Text(
-                        category,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          color: newsProvider.selectedCategory == category
-                              ? const Color.fromRGBO(255, 255, 255, 1)
-                              : const Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 14,
-                        ),
-                      ),
+                              gradient:
+                                  newsProvider.selectedCategory == category
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Color.fromRGBO(255, 128, 134, 1),
+                                            Color.fromRGBO(255, 58, 68, 1),
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        )
+                                      : const LinearGradient(
+                                          colors: [
+                                            Color.fromRGBO(255, 255, 255, 1),
+                                            Color.fromRGBO(255, 255, 255, 1),
+                                          ],
+                                        ),
+                            ),
+                            child: Text(
+                              category,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: newsProvider.selectedCategory == category
+                                    ? const Color.fromRGBO(255, 255, 255, 1)
+                                    : const Color.fromRGBO(0, 0, 0, 1),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  );
-                }).toList(),
-              ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 50,
