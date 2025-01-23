@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     /// DELAY FOR 3 SECONDS AND THEN NAVIGATE TO THE LOGIN SCREEN
     Future.delayed(const Duration(seconds: 3), () {
       // NAVIGATE TO THE LOGIN SCREEN USING NAMED ROUTE
-      Navigator.of(context).pushReplacementNamed("/login");
+      Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
     });
 
     return Scaffold(

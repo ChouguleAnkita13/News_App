@@ -16,6 +16,7 @@ class CategoryMenuBar extends StatelessWidget {
           children: [
             Row(
               children: [
+                /// DROPDOWN OF LIST OF COUNTRIES
                 DropdownButton(
                     value: newsProvider.selectCountry,
                     items: newsProvider.countryList
@@ -31,8 +32,7 @@ class CategoryMenuBar extends StatelessWidget {
 
                 /// HORIZONTAL SCROLLABLE LIST OF CATEGORIES
 
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.2,
+                Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
