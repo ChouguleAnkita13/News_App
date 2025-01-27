@@ -1,15 +1,18 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:news_app/controller/firebase_data.dart';
 import 'package:news_app/controller/getnews.dart';
 import 'package:news_app/model/newsmodel.dart';
 
 /// PROVIDER CLASS TO MANAGE NEWS DATA AND USER INTERACTIONS
 class NewsProvider with ChangeNotifier {
-  /// TEXT EDITING CONTROLLERS TO HANDLE USER INPUT
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final FirebaseData firebaseData = FirebaseData();
+
+  /// CONSTRUCTOR TO FETCH NEWS DATA FOR THE "NATIONAL" CATEGORY WHEN THE PROVIDER IS INITIALIZED
+  NewsProvider() {
+    getAllNews();
+    getAllBookMarkedNews();
+  }
 
   /// PRIVATE VARIABLE TO STORE THE SELECTED CATEGORY
   String _selectedCategory = 'Business';
@@ -26,13 +29,6 @@ class NewsProvider with ChangeNotifier {
   /// PRIVATE VARIABLE TO TRACK LOADING STATE
   bool _isLoading = false;
 
-  /// PRIVATE VARIABLE TO SHOW PASSWORD VISIBILTY
-  bool _isPasswordVisible = true;
-
-  /// PRIVATE VARIABLE TO SHOW CHECKBOX STATUS
-
-  bool _isChecked = false;
-
   /// LIST OF CATEGORIES AVAILABLE FOR SELECTION
   List<String> categories = [
     'Business',
@@ -46,11 +42,6 @@ class NewsProvider with ChangeNotifier {
 
   /// LIST OF COUNTRIES AVAILABLE FOR SELECTION
   List<String> countryList = ["us", "in"];
-
-  /// CONSTRUCTOR TO FETCH NEWS DATA FOR THE "NATIONAL" CATEGORY WHEN THE PROVIDER IS INITIALIZED
-  NewsProvider() {
-    getAllNews();
-  }
 
   /// GETTER TO ACCESS THE SELECTED CATEGORY
   String get selectedCategory => _selectedCategory;
@@ -66,28 +57,6 @@ class NewsProvider with ChangeNotifier {
 
   /// GETTER TO ACCESS THE LOADING STATE
   bool get isLoading => _isLoading;
-
-  /// GETTER TO ACCESS THE PASSWORD VISIBILTY STATUS
-  bool get isPasswordVisible => _isPasswordVisible;
-
-  /// GETTER TO ACCESS THE CHECKBOX STATUS
-  bool get isChecked => _isChecked;
-
-  /// METHOD TO TOGGLE THE PASSWORD VISIBILTY STATUS
-  void togglePassword() {
-    _isPasswordVisible = !_isPasswordVisible;
-    notifyListeners();
-
-    ///NOTIFIES LISTENERS WHEN THE PASSWORD VISIBILTY STATUS CHANGES
-  }
-
-  /// METHOD TO TOGGLE THE CHECKBOX STATUS
-  void toggleCheckbox() {
-    _isChecked = !_isChecked;
-    notifyListeners();
-
-    ///NOTIFIES LISTENERS WHEN THE CHECKBOX STATUS CHANGES
-  }
 
   /// METHOD TO SET THE SELECTED CATEGORY AND FETCH NEWS DATA ACCORDINGLY
   void setSelectedCategory(String category) {
@@ -121,15 +90,28 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
+  ///
+  Future<void> getAllBookMarkedNews() async {
+    List bookmarkedNews = await firebaseData.getBookMarkedNewsFromFirebase();
+    for (var data in bookmarkedNews) {
+      _bookmarkedNews.add(data);
+    }
+    notifyListeners();
+  }
+
   /// METHOD TO TOGGLE THE BOOKMARK STATUS OF AN ARTICLE
-  void toggleBookmark(Article article) {
+  void toggleBookmark(Article article) async {
     if (_bookmarkedNews.contains(article)) {
       /// REMOVE THE ARTICLE FROM THE BOOKMARK LIST IF IT ALREADY EXISTS
       _bookmarkedNews.remove(article);
+      firebaseData.removeBookmarkedNewsfromFirebase(article);
     } else {
       /// ADD THE ARTICLE TO THE BOOKMARK LIST IF IT DOES NOT EXIST
       _bookmarkedNews.add(article);
+      firebaseData.addBookmarkedNewsToFirebase(article);
     }
+    getAllBookMarkedNews();
+
     notifyListeners();
   }
 

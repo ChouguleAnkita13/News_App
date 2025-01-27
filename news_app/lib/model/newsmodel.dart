@@ -21,7 +21,7 @@ class NewsModel {
     if (json['articles'] != null) {
       json['articles'].forEach((article) {
         if (article['urlToImage'] != null) {
-          articles!.add(Article(article));
+          articles!.add(Article.fromJson(article));
         }
       });
     }
@@ -30,6 +30,9 @@ class NewsModel {
 
 // MODEL CLASS REPRESENTING INDIVIDUAL ARTICLE DATA
 class Article {
+  ///
+  String? dateId;
+
   /// AUTHOR OF THE ARTICLE (DEFAULT TO "SABINNA PIERRE" IF NULL)
   String? author;
 
@@ -51,8 +54,21 @@ class Article {
   /// CONTENT OF THE ARTICLE
   String? content;
 
-  /// CONSTRUCTOR TO INITIALIZE ARTICLE FROM JSON DATA
-  Article(Map<String, dynamic> json) {
+  // ///CONSTRUCTOR TO INITIALIZE VARIABLES
+  Article({
+    required this.dateId,
+    required this.author,
+    required this.title,
+    required this.description,
+    required this.url,
+    required this.urlToImage,
+    required this.publishedAt,
+    required this.content,
+  });
+
+  ///NAMED CONSTRUCTOR TO INITIALIZE ARTICLE FROM JSON DATA
+  Article.fromJson(Map<String, dynamic> json) {
+    dateId = json['publishedAt'];
     author = json['author'] ?? "Sabinna Pierre";
     title = json['title'];
     description = json['description'];
@@ -61,5 +77,18 @@ class Article {
     publishedAt = DateFormat('EEEE, dd MMM yyyy')
         .format(DateTime.parse(json['publishedAt']));
     content = json['content'];
+  }
+
+  Map<String, dynamic> articleMap() {
+    return {
+      "dateId": dateId,
+      "author": author,
+      "title": title,
+      "description": description,
+      "url": url,
+      "urlToImage": urlToImage,
+      "publishedAt": publishedAt,
+      "content": content
+    };
   }
 }
