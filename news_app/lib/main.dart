@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/controller/login_register_provider.dart';
 import 'package:news_app/view/route/app_route.dart'; // IMPORT APP ROUTES
 import 'package:news_app/controller/news_provider.dart'; // IMPORT NEWS PROVIDER FOR STATE MANAGEMENT
 import 'package:provider/provider.dart'; // IMPORT PROVIDER PACKAGE FOR STATE MANAGEMENT
@@ -7,7 +8,10 @@ import 'package:news_app/theme/app_theme.dart'; // IMPORT APP THEME
 
 /// MAIN ENTRY POINT OF THE APPLICATION
 void main() async {
+  ///START FLUTTER ENGINE
   WidgetsFlutterBinding.ensureInitialized();
+
+  ///INITIALIZE FIREBASE APP
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyBhwHkEI7nxQvFWJI6fGaejF02aqKt_BB8",
@@ -25,9 +29,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// WRAPPING THE APPLICATION IN A ChangeNotifierProvider TO PROVIDE NewsProvider
-    return ChangeNotifierProvider(
-      /// INITIALIZE NewsProvider FOR THE ENTIRE APP
-      create: (context) => NewsProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          /// INITIALIZE NewsProvider FOR THE ENTIRE APP
+          create: (context) => NewsProvider(),
+        ),
+        ChangeNotifierProvider(
+          /// INITIALIZE LoginRegisterProvider FOR THE ENTIRE APP
+          create: (context) => LoginRegisterProvider(),
+        ),
+      ],
       child: MaterialApp(
         /// SET THE INITIAL SCREEN OF THE APPLICATION
         home: initialScreen,
