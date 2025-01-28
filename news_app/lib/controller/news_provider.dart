@@ -92,6 +92,7 @@ class NewsProvider with ChangeNotifier {
 
   ///
   Future<void> getAllBookMarkedNews() async {
+    _bookmarkedNews.clear();
     List bookmarkedNews = await firebaseData.getBookMarkedNewsFromFirebase();
     for (var data in bookmarkedNews) {
       _bookmarkedNews.add(data);
@@ -101,22 +102,14 @@ class NewsProvider with ChangeNotifier {
 
   /// METHOD TO TOGGLE THE BOOKMARK STATUS OF AN ARTICLE
   void toggleBookmark(Article article) async {
-    if (_bookmarkedNews.contains(article)) {
-      /// REMOVE THE ARTICLE FROM THE BOOKMARK LIST IF IT ALREADY EXISTS
-      _bookmarkedNews.remove(article);
-      firebaseData.removeBookmarkedNewsfromFirebase(article);
-    } else {
-      /// ADD THE ARTICLE TO THE BOOKMARK LIST IF IT DOES NOT EXIST
-      _bookmarkedNews.add(article);
-      firebaseData.addBookmarkedNewsToFirebase(article);
-    }
-    getAllBookMarkedNews();
-
+    await firebaseData.addAndRemoveBookmarkedNewsToFirebase(article);
+    await getAllBookMarkedNews();
     notifyListeners();
   }
 
-  /// METHOD TO CHECK IF AN ARTICLE IS BOOKMARKED
+  // /// METHOD TO CHECK IF AN ARTICLE IS BOOKMARKED
   bool isBookmarked(Article article) {
-    return _bookmarkedNews.contains(article);
+    // firebaseData.getBookMarkedNewsFromFirebase();
+    return firebaseData.bookmarkedNewsIds.contains(article.dateId);
   }
 }

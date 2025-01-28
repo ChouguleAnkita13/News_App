@@ -6,6 +6,7 @@ import 'package:news_app/model/newsmodel.dart';
 class FirebaseData {
   final FirebaseFirestore firebaseInstance = FirebaseFirestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  List bookmarkedNewsIds = [];
 
   Future<String> signUpWithEmailAndPassword(
       {required String name,
@@ -17,6 +18,7 @@ class FirebaseData {
           email: email, password: password);
       await firebaseInstance.collection("Users").doc(email).set({
         "username": name,
+        "Phone": phone,
         "email": email,
         "password": password,
         "bookmarkedNews": []
@@ -28,6 +30,13 @@ class FirebaseData {
       log("$error");
       return "Please Try Again";
     }
+  }
+
+  Future<void> getBookmarkedNewsIdsFromFirebase() async {
+    final DocumentSnapshot response =
+        await firebaseInstance.collection("Users").doc('era@gmail.com').get();
+
+    bookmarkedNewsIds = response["bookmarkedNews"];
   }
 
   ///
@@ -43,28 +52,31 @@ class FirebaseData {
   }
 
   ///
-  Future<void> addBookmarkedNewsToFirebase(Article article) async {
+  Future<void> addAndRemoveBookmarkedNewsToFirebase(Article article) async {
     try {
-      Map<String, dynamic> articleMap = article.articleMap();
-      log(articleMap.toString());
+      final userInstance =
+          firebaseInstance.collection("Users").doc('era@gmail.com');
 
-      // final DocumentReference docRefId =
-      await firebaseInstance
-          .collection("BookmarkedNews")
-          .doc(article.dateId)
-          .set(articleMap);
-      // log(docRefId.toString());
-    } catch (error) {
-      log("$error");
-    }
-  }
+      ///
+      await getBookmarkedNewsIdsFromFirebase();
+      if (!bookmarkedNewsIds.contains(article.dateId)) {
+        log("Added \n${article.articleMap().toString()}");
 
-  Future<void> removeBookmarkedNewsfromFirebase(Article article) async {
-    try {
-      await firebaseInstance
-          .collection("BookmarkedNews")
-          .doc(article.dateId)
-          .delete();
+        await firebaseInstance
+            .collection("BookmarkedNews")
+            .doc(article.dateId)
+            .set(article.articleMap());
+
+        bookmarkedNewsIds.add(article.dateId);
+
+        await userInstance.update({"bookmarkedNews": bookmarkedNewsIds});
+      } else {
+        bookmarkedNewsIds.remove(article.dateId);
+        await userInstance.update({"bookmarkedNews": bookmarkedNewsIds});
+
+        log("Already Saved News");
+      }
+
       // log(docRefId.toString());
     } catch (error) {
       log("$error");
@@ -75,9 +87,11 @@ class FirebaseData {
     try {
       final QuerySnapshot response =
           await firebaseInstance.collection("BookmarkedNews").get();
-      return List.generate(
-          response.docs.length,
-          (index) => Article(
+      final List<Article> savedArticleList = [];
+      await getBookmarkedNewsIdsFromFirebase();
+      for (int index = 0; index < response.docs.length; index++) {
+        if (bookmarkedNewsIds.contains(response.docs[index].id)) {
+          savedArticleList.add(Article(
               dateId: response.docs[index].id,
               author: response.docs[index]['author'],
               title: response.docs[index]['title'],
@@ -86,6 +100,12 @@ class FirebaseData {
               urlToImage: response.docs[index]['urlToImage'],
               publishedAt: response.docs[index]['publishedAt'],
               content: response.docs[index]['content']));
+        }
+      }
+
+      log(savedArticleList.toString());
+
+      return savedArticleList;
     } catch (error) {
       log("$error");
       return [];
