@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/controller/news_provider.dart';
+import 'package:news_app/controller/login_register_provider.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
@@ -12,7 +12,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newsProvider = Provider.of<NewsProvider>(context);
+    final loginRegisterProvider = Provider.of<LoginRegisterProvider>(context);
 
     /// GLOBAL KEY TO VALIDATE THE FORM
     final GlobalKey<FormState> formKey = GlobalKey();
@@ -66,30 +66,15 @@ class SignUpScreen extends StatelessWidget {
 
                     /// NAME INPUT FIELD
                     CustomTextfield(
-                      controller: newsProvider.nameController,
+                      controller: loginRegisterProvider.nameController,
                       hintText: "  Enter your name",
                       icon: Icons.person_outline,
                       keyboardType: TextInputType.name,
-                      validate: (value) {
-                        if (value!.trim().isEmpty || value.length < 4) {
-                          return "Please Enter Name";
-                        }
-                        return null;
-                      },
                     ),
 
                     /// PHONE NUMBER INPUT FIELD
                     CustomTextfield(
-                      controller: newsProvider.phoneController,
-                      validate: (value) {
-                        if (value!.trim().isEmpty) {
-                          return "Please Enter Mobile Number";
-                        }
-                        if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                          return 'Please enter a valid 10-digit mobile number';
-                        }
-                        return null;
-                      },
+                      controller: loginRegisterProvider.phoneController,
                       hintText: "  Enter your phone number",
                       icon: Icons.phone_outlined,
                       keyboardType: TextInputType.number,
@@ -97,15 +82,7 @@ class SignUpScreen extends StatelessWidget {
 
                     /// EMAIL INPUT FIELD
                     CustomTextfield(
-                        controller: newsProvider.emailController,
-                        validate: (value) {
-                          if (value!.trim().isEmpty ||
-                              !RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
-                                  .hasMatch(value)) {
-                            return 'Please Enter Valid Email';
-                          }
-                          return null;
-                        },
+                        controller: loginRegisterProvider.emailController,
                         hintText: "  Enter your email",
                         icon: Icons.email_outlined,
                         keyboardType: TextInputType.emailAddress),
@@ -118,12 +95,12 @@ class SignUpScreen extends StatelessWidget {
                       children: [
                         Transform.scale(
                           scale: 1.1,
-                          child: Consumer<NewsProvider>(
+                          child: Consumer<LoginRegisterProvider>(
 
                               /// ACCESS THE NEWS PROVIDER INSTANCE
-                              builder: (context, newsProvider, child) {
+                              builder: (context, loginRegisterProvider, child) {
                             return Checkbox(
-                              value: newsProvider.isChecked,
+                              value: loginRegisterProvider.isChecked,
                               activeColor: AppTheme.primaryColor,
                               side: const BorderSide(
                                   color: AppTheme.textColorLight),
@@ -131,7 +108,7 @@ class SignUpScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               onChanged: (value) {
-                                newsProvider.toggleCheckbox();
+                                loginRegisterProvider.toggleCheckbox();
                               },
                             );
                           }),
@@ -159,10 +136,30 @@ class SignUpScreen extends StatelessWidget {
 
                     /// SIGN-UP BUTTON
                     GestureDetector(
-                        onTap: () {
-                          bool isValidated = formKey.currentState!.validate();
-                          if (isValidated) {
+                        onTap: () async {
+                          await loginRegisterProvider
+                              .signUpWithEmailAndPassword(
+                                  name:
+                                      loginRegisterProvider.nameController.text,
+                                  email: loginRegisterProvider
+                                      .emailController.text,
+                                  password: loginRegisterProvider
+                                      .passwordController.text,
+                                  phone: loginRegisterProvider
+                                      .passwordController.text);
+
+                          ///
+                          if (loginRegisterProvider.signUpMessage == "") {
                             Navigator.of(context).pop();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red[200]!,
+                                content:
+                                    Text(loginRegisterProvider.signUpMessage),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
                           }
                         },
                         child: const ButtonContainer(text: "Sign Up")),

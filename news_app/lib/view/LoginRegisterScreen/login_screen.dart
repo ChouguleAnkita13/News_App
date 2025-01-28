@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/controller/news_provider.dart';
+import 'package:news_app/controller/login_register_provider.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
@@ -11,7 +11,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newsProvider = Provider.of<NewsProvider>(context);
+    final loginRegisterProvider = Provider.of<LoginRegisterProvider>(context);
 
     /// GLOBAL KEY TO VALIDATE THE FORM
     final GlobalKey<FormState> formKey = GlobalKey();
@@ -54,15 +54,7 @@ class LoginScreen extends StatelessWidget {
 
                       /// CUSTOM TEXT FIELD FOR EMAIL INPUT
                       CustomTextfield(
-                          controller: newsProvider.emailController,
-                          validate: (value) {
-                            if (value!.trim().isEmpty ||
-                                !RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
-                                    .hasMatch(value)) {
-                              return 'Please Enter Valid Email';
-                            }
-                            return null;
-                          },
+                          controller: loginRegisterProvider.emailController,
                           hintText: "  Enter your email",
                           icon: Icons.email_outlined,
                           keyboardType: TextInputType.emailAddress),
@@ -87,11 +79,23 @@ class LoginScreen extends StatelessWidget {
 
                       /// SIGN IN BUTTON WITH VALIDATION
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           /// VALIDATE THE FORM
-                          bool loginValidated =
-                              formKey.currentState!.validate();
-                          if (loginValidated) {
+                          // bool loginValidated =
+                          //     formKey.currentState!.validate();
+                          // if (loginValidated) {
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     backgroundColor: Colors.green,
+                          //     content: Text("Login successful"),
+                          //     duration: Duration(seconds: 1),
+                          //   ),
+                          // );
+                          await loginRegisterProvider.loginWithEmailAndPassword(
+                              email: loginRegisterProvider.emailController.text,
+                              password: loginRegisterProvider
+                                  .passwordController.text);
+                          if (loginRegisterProvider.loginMessage == "") {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.green,
@@ -102,6 +106,15 @@ class LoginScreen extends StatelessWidget {
 
                             /// NAVIGATE TO THE HOME SCREEN AFTER A SUCCESSFUL LOGIN
                             Navigator.of(context).popAndPushNamed("/home");
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red[200]!,
+                                content:
+                                    Text(loginRegisterProvider.loginMessage),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
                           }
                         },
 

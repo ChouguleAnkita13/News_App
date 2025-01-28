@@ -7,7 +7,6 @@ class CustomTextfield extends StatelessWidget {
   const CustomTextfield({
     super.key,
     required this.controller,
-    required this.validate,
     required this.hintText,
     required this.icon,
     required this.keyboardType,
@@ -15,9 +14,6 @@ class CustomTextfield extends StatelessWidget {
 
   /// TEXT CONTROLLER TO MANAGE THE INPUT DATA
   final TextEditingController controller;
-
-  /// VALIDATION FUNCTION FOR FORM FIELD VALIDATION
-  final String? Function(String?) validate;
 
   /// HINT TEXT TO DISPLAY INSIDE THE TEXT FIELD
   final String hintText;
@@ -55,7 +51,6 @@ class CustomTextfield extends StatelessWidget {
           focusedErrorBorder: AppTheme.lightTheme.inputDecorationTheme
               .focusedErrorBorder, // BORDER WHEN ERROR AND FOCUSED
         ),
-        validator: validate, // VALIDATION FUNCTION
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/controller/news_provider.dart';
+import 'package:news_app/controller/login_register_provider.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -9,23 +9,23 @@ class PasswordTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewsProvider>(
+    return Consumer<LoginRegisterProvider>(
 
         /// ACCESS THE NEWS PROVIDER INSTANCE
-        builder: (context, newsProvider, child) {
+        builder: (context, loginRegisterProvider, child) {
       return Container(
         /// APPLYING BACKGROUND COLOR AND MARGIN TO THE TEXT FIELD CONTAINER
         color: const Color.fromRGBO(240, 241, 250, 0.4),
         margin: const EdgeInsets.only(top: 20, bottom: 5),
         child: TextFormField(
           /// CONTROLLER TO MANAGE TEXT INPUT
-          controller: newsProvider.passwordController,
+          controller: loginRegisterProvider.passwordController,
 
           /// SET THE CURSOR COLOR
           cursorColor: AppTheme.textColorLight,
 
           /// ENABLE OBSCURE TEXT FOR PASSWORD INPUT
-          obscureText: newsProvider.isPasswordVisible,
+          obscureText: loginRegisterProvider.isPasswordVisible,
           obscuringCharacter: "*",
 
           /// DECORATION FOR THE INPUT FIELD
@@ -41,10 +41,10 @@ class PasswordTextfield extends StatelessWidget {
             suffixIcon: GestureDetector(
               onTap: () {
                 /// TOGGLE PASSWORD VISIBILITY ON TAP
-                newsProvider.togglePassword();
+                loginRegisterProvider.togglePassword();
               },
               child: Icon(
-                newsProvider.isPasswordVisible
+                loginRegisterProvider.isPasswordVisible
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined,
                 size: 26,
@@ -65,22 +65,6 @@ class PasswordTextfield extends StatelessWidget {
             focusedErrorBorder:
                 AppTheme.lightTheme.inputDecorationTheme.focusedErrorBorder,
           ),
-
-          /// VALIDATOR TO VALIDATE PASSWORD INPUT
-          validator: (value) {
-            /// CHECK IF PASSWORD FIELD IS EMPTY
-            if (value!.trim().isEmpty) {
-              return "Please Enter Password";
-            }
-
-            /// REGEX VALIDATION FOR STRONG PASSWORD REQUIREMENTS
-            if (!RegExp(
-                    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+={}|;<>?,.\/~`\-\\[\]]).{8,}$')
-                .hasMatch(value)) {
-              return 'Please enter password with one uppercase letter, one lowercase letter, one digit, and one special character';
-            }
-            return null;
-          },
         ),
       );
     });
