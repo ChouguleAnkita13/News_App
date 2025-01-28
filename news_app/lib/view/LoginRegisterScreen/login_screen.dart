@@ -3,6 +3,7 @@ import 'package:news_app/controller/login_register_provider.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
+import 'package:news_app/view/Widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
 ///LOGIN SCREEN
@@ -96,25 +97,14 @@ class LoginScreen extends StatelessWidget {
                               password: loginRegisterProvider
                                   .passwordController.text);
                           if (loginRegisterProvider.loginMessage == "") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text("Login successful"),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
+                            CustomSnackbar.showCustomSnackbar(
+                                context, "Login successful");
 
                             /// NAVIGATE TO THE HOME SCREEN AFTER A SUCCESSFUL LOGIN
                             Navigator.of(context).popAndPushNamed("/home");
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.red[200]!,
-                                content:
-                                    Text(loginRegisterProvider.loginMessage),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
+                            CustomSnackbar.showCustomSnackbar(
+                                context, loginRegisterProvider.loginMessage);
                           }
                         },
 

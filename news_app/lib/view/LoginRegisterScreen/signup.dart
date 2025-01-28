@@ -4,6 +4,7 @@ import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
 import 'package:news_app/view/Widgets/button_container.dart';
+import 'package:news_app/view/Widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart'; // IMPORT THE THEME FILE
 
 ///REGISTERATION SCREEN
@@ -152,14 +153,8 @@ class SignUpScreen extends StatelessWidget {
                           if (loginRegisterProvider.signUpMessage == "") {
                             Navigator.of(context).pop();
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.red[200]!,
-                                content:
-                                    Text(loginRegisterProvider.signUpMessage),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
+                            CustomSnackbar.showCustomSnackbar(
+                                context, loginRegisterProvider.signUpMessage);
                           }
                         },
                         child: const ButtonContainer(text: "Sign Up")),
