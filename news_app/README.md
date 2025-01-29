@@ -2,6 +2,8 @@
 
 ## Overview
 The News App is a Flutter-based mobile application that delivers the latest news articles from various categories. It is built using the Provider state management solution and integrates with a news API for real-time updates. The app follows the Model-View-Controller (MVC) design pattern, ensuring clean architecture and maintainability. The folder structure is organized for scalability and easy management of code.
+This app also integrates Firebase for user authentication and management, enabling multiple users to bookmark and manage their favorite news articles. Additionally, SharedPreferences is used to manage session persistence, ensuring seamless user experiences.
+
 
 ## Screenshots
 <div style="display: flex;">
@@ -23,18 +25,44 @@ The News App is a Flutter-based mobile application that delivers the latest news
 The project follows the MVC (Model-View-Controller) architecture for better organization and scalability.
 
 ```bash
-lib/
-├── controller/        # Handles app logic and state (e.g., news_provider.dart)
-├── model/             # Data classes and business logic (e.g., newsmodel.dart)
-├── view/              # UI components and screens
-│   ├── HomeScreen/    # Home screen and related widgets
-│   ├── LoginRegisterScreen/ # Login and Signup screens and related widgets
-│   ├── Widgets/       # Reusable UI components (e.g., custom buttons, text fields)
-│   ├── details_screen.dart # Detailed news screen
-│   ├── bookmarked_news_screen.dart # Bookmarked articles screen
-│   └── splash_screen.dart # Splash screen
-├── theme/             # App themes and styling (e.g., app_theme.dart)
-├── main.dart          # Entry point of the app
+news_app/
+├── lib/
+│   ├── controller/                     # Handles app logic and state
+│   │   ├── firebase_data.dart          # Firebase-related operations
+│   │   ├── getnews.dart                # Fetches news from the API
+│   │   ├── login_register_provider.dart # State management for login & registration
+│   │   ├── news_provider.dart          # State management for news
+│   │   └── session_data.dart           # Manages user session data
+│   │
+│   ├── model/                          # Data classes and business logic
+│   │   └── newsmodel.dart              # News data model
+│   │
+│   ├── theme/                          # App themes and styling
+│   │   └── app_theme.dart              # Theme configurations
+│   │
+│   ├── view/                           # UI components and screens
+│   │   ├── HomeScreen/                 # Home screen and related widgets
+│   │   │   ├── Widgets/                # Reusable widgets for Home screen
+│   │   │   └── home.dart               # Home screen
+│   │   │
+│   │   ├── LoginRegisterScreen/        # Login and Signup screens
+│   │   │   ├── widgets/                # Reusable widgets for Login/Signup screens
+│   │   │   │   ├── custom_textfield.dart # Custom text field widget
+│   │   │   │   └── password_textfield.dart # Password text field widget
+│   │   │   ├── login_screen.dart       # Login screen
+│   │   │   └── signup.dart             # Signup screen
+│   │   │
+│   │   ├── route/                      # Route configurations
+│   │   │
+│   │   ├── Widgets/                    # Global reusable widgets
+│   │   │   ├── button_container.dart   # Button container with gradient
+│   │   │   └── custom_snackbar.dart    # Custom snackbar for notifications
+│   │   │
+│   │   ├── bookmarked_news_screen.dart # Screen to display bookmarked news
+│   │   ├── details_screen.dart         # Detailed news screen
+│   │   └── splash_screen.dart          # Splash screen
+│   │
+│   └── main.dart                       # Entry point of the application
 ```
 ## Key Features
 
@@ -44,7 +72,14 @@ Detailed news screens with article descriptions, publication dates, and author i
 
 #### Bookmarking
 Save favorite news articles to revisit later.
-Bookmark management to remove saved articles.
+Manage bookmarks (add/remove) stored in Firebase for multiple user accounts.
+
+#### User Authentication
+Firebase authentication for user sign-up, login, and session management.
+User-specific bookmarks, ensuring data privacy across accounts.
+
+#### Session Management
+Integrated SharedPreferences for managing user sessions (isLogin variable), ensuring persistence between app restarts.
 
 #### UI/UX
 Clean and modern user interface with responsive design for mobile devices.
@@ -85,6 +120,10 @@ dependencies:
   url_launcher: ^6.3.0
   provider: ^6.1.2
   intl: ^0.20.1
+  firebase_core: ^2.17.1
+  firebase_auth: ^5.3.2
+  cloud_firestore: ^5.4.1
+  shared_preferences: ^2.1.0
 ```
 ## License
 This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for more details.
