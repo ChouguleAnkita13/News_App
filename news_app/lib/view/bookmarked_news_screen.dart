@@ -134,15 +134,35 @@ class BookmarkedNewsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 /// DISPLAY THE NEWS TITLE
-                                Text(
-                                  news.title!,
-                                  style: AppTheme
-                                      .lightTheme.textTheme.titleLarge
-                                      ?.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 16), // APPLY THEME STYLE
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        news.title!,
+                                        style: AppTheme
+                                            .lightTheme.textTheme.titleLarge
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontSize:
+                                                    16), // APPLY THEME STYLE
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+
+                                    ///CANCEL BUTTON TO REMOVE SAVED(BOOK MARKED NEWS FROM LIST/FIREBASE)
+                                    GestureDetector(
+                                      onTap: () {
+                                        newsProvider.toggleBookmark(news);
+                                      },
+                                      child: const Icon(
+                                        Icons.cancel,
+                                        size: 26,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 Row(
                                   mainAxisAlignment:
