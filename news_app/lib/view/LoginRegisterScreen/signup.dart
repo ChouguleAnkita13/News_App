@@ -138,21 +138,25 @@ class SignUpScreen extends StatelessWidget {
                     /// SIGN-UP BUTTON
                     GestureDetector(
                         onTap: () async {
+                          /// CALL SIGN-UP METHOD FROM LOGINREGISTERPROVIDER AND PASS USER INPUTS
                           await loginRegisterProvider
                               .signUpWithEmailAndPassword(
-                                  name:
-                                      loginRegisterProvider.nameController.text,
-                                  email: loginRegisterProvider
-                                      .emailController.text,
-                                  password: loginRegisterProvider
-                                      .passwordController.text,
-                                  phone: loginRegisterProvider
-                                      .passwordController.text);
+                            name: loginRegisterProvider
+                                .nameController.text, // GET NAME INPUT
+                            email: loginRegisterProvider
+                                .emailController.text, // GET EMAIL INPUT
+                            password: loginRegisterProvider
+                                .passwordController.text, // GET PASSWORD INPUT
+                            phone: loginRegisterProvider.passwordController
+                                .text, // GET PHONE INPUT (THIS MAY BE A TYPO, DOUBLE CHECK THIS)
+                          );
 
-                          ///
+                          /// CHECK IF SIGN-UP IS SUCCESSFUL
                           if (loginRegisterProvider.signUpMessage == "") {
+                            /// NAVIGATE BACK TO THE PREVIOUS SCREEN (LOGIN SCREEN)
                             Navigator.of(context).pop();
                           } else {
+                            /// SHOW ERROR MESSAGE IF SIGN-UP FAILS
                             CustomSnackbar.showCustomSnackbar(
                                 context, loginRegisterProvider.signUpMessage);
                           }

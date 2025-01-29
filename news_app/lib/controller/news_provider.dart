@@ -6,9 +6,11 @@ import 'package:news_app/model/newsmodel.dart';
 
 /// PROVIDER CLASS TO MANAGE NEWS DATA AND USER INTERACTIONS
 class NewsProvider with ChangeNotifier {
+  /// FIREBASE DATA INSTANCE FOR BOOKMARKING FUNCTIONALITY
   final FirebaseData firebaseData = FirebaseData();
 
-  /// CONSTRUCTOR TO FETCH NEWS DATA FOR THE "NATIONAL" CATEGORY WHEN THE PROVIDER IS INITIALIZED
+  /// CONSTRUCTOR TO INITIALIZE PROVIDER AND FETCH INITIAL DATA
+  /// FETCHES NEWS DATA FOR THE DEFAULT CATEGORY ("BUSINESS") AND BOOKMARKED NEWS
   NewsProvider() {
     getAllNews();
     getAllBookMarkedNews();
@@ -65,19 +67,19 @@ class NewsProvider with ChangeNotifier {
   }
 
   /// METHOD TO SET THE SELECTED COUNTRY AND FETCH NEWS DATA ACCORDINGLY
-
   void getselectedCountry(String country) {
     _selectedCountry = country;
     getAllNews();
   }
 
-  /// ASYNCHRONOUS METHOD TO FETCH NEWS DATA BASED ON THE SELECTED CATEGORY
+  /// ASYNCHRONOUS METHOD TO FETCH NEWS DATA BASED ON THE SELECTED CATEGORY AND COUNTRY
   Future<void> getAllNews() async {
+    /// SET LOADING STATE TO TRUE AND NOTIFY LISTENERS
     _isLoading = true;
     notifyListeners();
 
     try {
-      /// FETCH NEWS DATA USING THE SELECTED CATEGORY
+      /// FETCH NEWS DATA USING THE SELECTED CATEGORY AND COUNTRY
       _newsData =
           await getNews(_selectedCategory.toLowerCase(), _selectedCountry);
     } catch (e) {
@@ -90,26 +92,38 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
-  ///
+  /// METHOD TO FETCH ALL BOOKMARKED NEWS FROM FIREBASE
   Future<void> getAllBookMarkedNews() async {
+    /// CLEAR THE EXISTING LIST OF BOOKMARKED ARTICLES
     _bookmarkedNews.clear();
+
+    /// FETCH BOOKMARKED NEWS FROM FIREBASE
     List bookmarkedNews = await firebaseData.getBookMarkedNewsFromFirebase();
+
+    /// ADD FETCHED DATA TO THE LOCAL LIST
     for (var data in bookmarkedNews) {
       _bookmarkedNews.add(data);
     }
+
+    /// NOTIFY LISTENERS TO UPDATE THE UI
     notifyListeners();
   }
 
   /// METHOD TO TOGGLE THE BOOKMARK STATUS OF AN ARTICLE
   void toggleBookmark(Article article) async {
+    /// ADD OR REMOVE THE ARTICLE FROM BOOKMARKS IN FIREBASE
     await firebaseData.addAndRemoveBookmarkedNewsToFirebase(article);
+
+    /// REFRESH THE BOOKMARKED NEWS LIST
     await getAllBookMarkedNews();
+
+    /// NOTIFY LISTENERS TO UPDATE THE UI
     notifyListeners();
   }
 
-  // /// METHOD TO CHECK IF AN ARTICLE IS BOOKMARKED
+  /// METHOD TO CHECK IF AN ARTICLE IS ALREADY BOOKMARKED
   bool isBookmarked(Article article) {
-    // firebaseData.getBookMarkedNewsFromFirebase();
+    /// RETURN TRUE IF THE ARTICLE'S ID EXISTS IN THE BOOKMARKED NEWS IDS
     return firebaseData.bookmarkedNewsIds.contains(article.dateId);
   }
 }
