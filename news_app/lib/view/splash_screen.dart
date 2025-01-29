@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:news_app/controller/session_data.dart';
 import 'package:news_app/theme/app_theme.dart'; // IMPORT THE THEME FILE
 
 /// SPLASH SCREEN THAT DISPLAYS A LOADING SCREEN FOR A FEW SECONDS
@@ -8,10 +11,20 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// DELAY FOR 3 SECONDS AND THEN NAVIGATE TO THE LOGIN SCREEN
-    Future.delayed(const Duration(seconds: 3), () {
-      // NAVIGATE TO THE LOGIN SCREEN USING NAMED ROUTE
-      Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
+    /// DELAY FOR 3 SECONDS AND THEN EXECUTE THE NAVIGATION LOGIC
+    Future.delayed(const Duration(seconds: 3), () async {
+      /// RETRIEVE SESSION DATA FROM SHARED PREFERENCES
+      await SessionData.getSessionData();
+      log(SessionData.isLogin.toString()); // LOG THE LOGIN STATUS FOR DEBUGGING
+
+      /// CHECK IF THE USER IS ALREADY LOGGED IN USING THE SESSION DATA
+      /// IF LOGGED IN, NAVIGATE TO THE HOME SCREEN
+      if (SessionData.isLogin!) {
+        Navigator.of(context).pushReplacementNamed("/home");
+      } else {
+        /// IF NOT LOGGED IN, NAVIGATE TO THE LOGIN SCREEN
+        Navigator.of(context).pushReplacementNamed("/login");
+      }
     });
 
     return Scaffold(

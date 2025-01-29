@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/controller/login_register_provider.dart';
+import 'package:news_app/controller/session_data.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
@@ -81,28 +82,25 @@ class LoginScreen extends StatelessWidget {
                       /// SIGN IN BUTTON WITH VALIDATION
                       GestureDetector(
                         onTap: () async {
-                          /// VALIDATE THE FORM
-                          // bool loginValidated =
-                          //     formKey.currentState!.validate();
-                          // if (loginValidated) {
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   const SnackBar(
-                          //     backgroundColor: Colors.green,
-                          //     content: Text("Login successful"),
-                          //     duration: Duration(seconds: 1),
-                          //   ),
-                          // );
+                          /// CALL LOGIN METHOD FROM LOGINREGISTERPROVIDER AND PASS USER INPUTS
                           await loginRegisterProvider.loginWithEmailAndPassword(
                               email: loginRegisterProvider.emailController.text,
                               password: loginRegisterProvider
                                   .passwordController.text);
+
+                          /// CHECK IF LOGIN IS SUCCESSFUL
                           if (loginRegisterProvider.loginMessage == "") {
+                            /// STORE SESSION DATA ON SUCCESSFUL LOGIN
+                            await SessionData.storeSessionData(true);
+
+                            /// SHOW SUCCESS SNACKBAR MESSAGE
                             CustomSnackbar.showCustomSnackbar(
                                 context, "Login successful");
 
                             /// NAVIGATE TO THE HOME SCREEN AFTER A SUCCESSFUL LOGIN
                             Navigator.of(context).popAndPushNamed("/home");
                           } else {
+                            /// SHOW ERROR MESSAGE IF LOGIN FAILS
                             CustomSnackbar.showCustomSnackbar(
                                 context, loginRegisterProvider.loginMessage);
                           }
