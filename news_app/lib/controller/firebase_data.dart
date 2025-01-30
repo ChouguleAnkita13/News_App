@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:news_app/controller/session_data.dart';
 import 'package:news_app/model/newsmodel.dart';
 
 class FirebaseData {
@@ -48,7 +49,7 @@ class FirebaseData {
   Future<void> getBookmarkedNewsIdsFromFirebase() async {
     final DocumentSnapshot response = await firebaseInstance
         .collection("Users")
-        .doc('era@gmail.com') // TEMPORARY USER EMAIL FOR DEMONSTRATION
+        .doc(SessionData.email) // USER EMAIL FOR DEMONSTRATION
         .get();
 
     /// STORE BOOKMARKED NEWS IDS LOCALLY
@@ -64,10 +65,32 @@ class FirebaseData {
       /// SIGN IN USING FIREBASE AUTH
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+
+      /// GET FIREBASE USER DOCUMENT
+      final DocumentSnapshot userDoc =
+          await firebaseInstance.collection("Users").doc(email).get();
+
+      /// STORE SESSION DATA ON SUCCESSFUL LOGIN
+      await SessionData.storeSessionData(true, email, userDoc['username']);
+
       return ""; // RETURN EMPTY STRING IF SUCCESSFUL
     } on FirebaseAuthException catch (error) {
       /// RETURN ERROR CODE IN CASE OF FIREBASE AUTH ERROR
       return error.code;
+    }
+  }
+
+  /// LOGOUT A USER WITH EMAIL AND PASSWORD
+  Future<void> logOutUser() async {
+    try {
+      /// LOGOUT  USING FIREBASE AUTH
+      await firebaseAuth.signOut();
+
+      /// RESTORE SESSION DATA ON SUCCESSFUL LOGOUT
+      await SessionData.storeSessionData(false, "", "");
+    } on FirebaseAuthException catch (error) {
+      /// DISPLAY ERROR CODE IN CASE OF FIREBASE AUTH ERROR
+      log(error.code);
     }
   }
 
@@ -76,7 +99,7 @@ class FirebaseData {
     try {
       /// GET FIREBASE USER DOCUMENT REFERENCE
       final userInstance =
-          firebaseInstance.collection("Users").doc('era@gmail.com');
+          firebaseInstance.collection("Users").doc(SessionData.email);
 
       /// FETCH EXISTING BOOKMARKED NEWS IDS
       await getBookmarkedNewsIdsFromFirebase();

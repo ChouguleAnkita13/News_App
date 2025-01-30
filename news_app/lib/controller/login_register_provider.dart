@@ -52,9 +52,12 @@ class LoginRegisterProvider extends ChangeNotifier {
     /// CALL FIREBASEDATA FUNCTION TO LOG IN AND UPDATE THE LOGIN MESSAGE
     loginMessage = await firebaseData.loginWithEmailAndPassword(
         email: email, password: password);
+  }
 
-    /// NOTIFIES LISTENERS TO UPDATE THE UI
-    notifyListeners();
+  /// METHOD TO HANDLE LOGOUT FUNCTIONALITY
+  Future logOutUserOfNewsAppFromFirebase() async {
+    /// CALL FIREBASEDATA FUNCTION TO LOGOUT
+    await firebaseData.logOutUser();
   }
 
   /// METHOD TO HANDLE SIGN-UP FUNCTIONALITY USING EMAIL, PASSWORD, NAME, AND PHONE
