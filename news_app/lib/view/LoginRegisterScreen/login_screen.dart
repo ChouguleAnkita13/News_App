@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/controller/login_register_provider.dart';
-import 'package:news_app/controller/session_data.dart';
 import 'package:news_app/theme/app_theme.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/custom_textfield.dart';
 import 'package:news_app/view/LoginRegisterScreen/widgets/password_textfield.dart';
@@ -90,9 +89,6 @@ class LoginScreen extends StatelessWidget {
 
                           /// CHECK IF LOGIN IS SUCCESSFUL
                           if (loginRegisterProvider.loginMessage == "") {
-                            /// STORE SESSION DATA ON SUCCESSFUL LOGIN
-                            await SessionData.storeSessionData(true);
-
                             /// SHOW SUCCESS SNACKBAR MESSAGE
                             CustomSnackbar.showCustomSnackbar(
                                 context, "Login successful");
