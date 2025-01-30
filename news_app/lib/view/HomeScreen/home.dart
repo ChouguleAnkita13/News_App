@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/view/HomeScreen/Widgets/drawer_widget.dart';
 import 'package:news_app/view/HomeScreen/Widgets/menubar.dart';
 import 'package:news_app/theme/app_theme.dart'; // IMPORT THE THEME FILE
 
@@ -11,11 +12,18 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       /// APP BAR CONFIGURATION
       appBar: AppBar(
-        /// LEADING LOGO IMAGE
-        leading: Image.asset(
-          "assets/images/logo.png",
-          height: 45,
-          width: 45,
+        // /// LEADING LOGO IMAGE
+        leading: Builder(
+          builder: (context) => GestureDetector(
+            onTap: () {
+              Scaffold.of(context).openDrawer(); // Opens the drawer
+            },
+            child: Image.asset(
+              "assets/images/logo.png",
+              height: 45,
+              width: 45,
+            ),
+          ),
         ),
 
         /// APP TITLE WITH THEMED TEXT STYLE
@@ -51,6 +59,9 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+
+      ///DRAWER FOR PROFILE OF USER
+      drawer: const DrawerWidget(),
 
       /// BODY CONTENT WITH CATEGORY MENU BAR
       body: const Padding(
