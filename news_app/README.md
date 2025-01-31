@@ -18,7 +18,10 @@ This app also integrates Firebase for user authentication and management, enabli
  <br> <br><br><br>
     <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/80bec03f-0af4-4d7b-9106-5e70ac783b69" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
  <img src="https://github.com/user-attachments/assets/3a579888-67fc-4f03-8805-e58266738b25" alt="Home 2" style="margin-right: 10px;" width="300" height="600">   
+ <img src="https://github.com/user-attachments/assets/be723c31-9f97-492f-b6e3-450ccbe77138" alt="Home 2" style="margin-right: 10px;" width="300" height="600">   
+ 
 </div>
+![Screenshot_20250130-172842]()
 
 ## Project Structure
 
