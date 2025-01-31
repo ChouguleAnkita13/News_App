@@ -16,15 +16,11 @@ This app also integrates Firebase for user authentication and management, enabli
  <img src="https://github.com/user-attachments/assets/65c33d2f-2be8-4446-b1ef-2e057458defc" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
 
  <br> <br><br><br>
-    <img src="https://github.com/user-attachments/assets/f9e00df2-959b-4f75-8113-5a173e1ed35c" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
- <img src="https://github.com/user-attachments/assets/60cd6f27-4b06-4279-a108-3df79ea638e5" alt="Home 2" style="margin-right: 10px;" width="300" height="600">
+    <img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/80bec03f-0af4-4d7b-9106-5e70ac783b69" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
+ <img src="https://github.com/user-attachments/assets/3a579888-67fc-4f03-8805-e58266738b25" alt="Home 2" style="margin-right: 10px;" width="300" height="600">
  <img src="https://github.com/user-attachments/assets/65c33d2f-2be8-4446-b1ef-2e057458defc" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
 
- <br> <br><br><br>
-<img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/80bec03f-0af4-4d7b-9106-5e70ac783b69" alt="Bookmark 2" style="margin-right: 10px;" width="300" height="600">
- <img src="https://github.com/user-attachments/assets/3a579888-67fc-4f03-8805-e58266738b25" alt="Home 2" style="margin-right: 10px;" width="300" height="600">   
-<img src="https://github.com/ChouguleAnkita13/Flutter_News_App/assets/155567405/80bec03f-0af4-4d7b-9106-5e70ac783b69" alt="Bookmark 2" style="margin-right: 10px;" width="250" height="600">
- 
+
 </div>
 
 ## Project Structure
