@@ -1,4 +1,3 @@
-![Screenshot_20250130-172842]()
 # Flutter News Application
 
 ## Overview
